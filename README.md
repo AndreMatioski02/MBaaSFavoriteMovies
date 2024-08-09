@@ -13,10 +13,15 @@ Público-Alvo: O público-alvo são amantes de cinema, estudantes de cinema e qu
 Funcionalidades do Aplicativo
 
 ● Subdivisão por Categoria: Organizar os filmes por categorias definidas pelo usuário, como ação, comédia, drama, etc.
+
 ● Adicionar Filmes: Permitir que os usuários adicionem novos filmes à lista com vínculo a uma categoria criada anteriormente, bem como adicionar informações de onde assistir.
+
 ● Visualização de Filmes: Permitir a visualização de todos os filmes em uma lista.
+
 ● Marcar como Assistido: Possibilidade de marcar filmes como assistidos e movê-los para uma lista separada.
+
 ● Listas de Ordem de Filmes: Permitir a criação de listas de ordem de filmes para assistir, facilitando a organização de séries de filmes em ordem cronológica.
+
 ● Notas e Avaliações: Permitir que os usuários adicionem notas ou avaliações aos filmes após assisti-los.
 
 O Filmes Favoritos visa atender à necessidade de amantes do cinema que desejam organizar seus filmes favoritos de maneira prática e eficiente.
