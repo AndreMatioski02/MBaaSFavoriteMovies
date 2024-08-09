@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1039363967716",
+    "project_id": "pos-mbaas-app",
+    "storage_bucket": "pos-mbaas-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039363967716:android:fb5e9214fb35d38785baf1",
+        "android_client_info": {
+          "package_name": "com.kotlin.mbaasfirebaseproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdSPCSf8bhkaQH34673x59nlQ5joAhNbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
