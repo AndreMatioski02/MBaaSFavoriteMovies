@@ -3,12 +3,13 @@ package com.kotlin.mbaasfirebaseproject.ui.screens.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-data class User(val uid: String?, val email: String?)
+data class User(val uid: String?, val email: String?, val name: String?, val cpf: String?)
 
 class LoginViewModel constructor() : ViewModel() {
 
@@ -32,6 +33,13 @@ class LoginViewModel constructor() : ViewModel() {
         _password.value = newPassword
     }
 
+    fun clearUserState() {
+        _user.value = null
+        _username.value = ""
+        _password.value = ""
+        _loginState.value = LoginState.Idle
+    }
+
     fun onLoginClicked() {
         viewModelScope.launch {
             _loginState.value = LoginState.Loading
@@ -39,8 +47,20 @@ class LoginViewModel constructor() : ViewModel() {
                 val authResult = FirebaseAuth.getInstance()
                     .signInWithEmailAndPassword(username.value, password.value)
                     .await()
-                println("authResult.user ${authResult.user?.uid}")
-                _user.value = User(authResult.user?.uid, authResult.user?.email)
+
+                val uid = authResult.user?.uid ?: throw Exception("UID is null")
+
+                val userDocument = FirebaseFirestore.getInstance()
+                    .collection("users")
+                    .document(uid)
+                    .get()
+                    .await()
+
+                val name = userDocument.getString("name")
+                val cpf = userDocument.getString("cpf")
+                val email = authResult.user?.email
+
+                _user.value = User(uid, email, name, cpf)
                 _loginState.value = LoginState.Success
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error(e.message ?: "Unknown error")

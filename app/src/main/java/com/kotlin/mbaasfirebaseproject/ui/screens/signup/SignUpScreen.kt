@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,6 +36,8 @@ import com.kotlin.mbaasfirebaseproject.ui.components.CustomTextField
 
 @Composable
 fun SignUpScreen(navController: NavController, signUpViewModel: SignUpViewModel = viewModel()) {
+    val name by signUpViewModel.name.collectAsState()
+    val cpf by signUpViewModel.cpf.collectAsState()
     val email by signUpViewModel.email.collectAsState()
     val password by signUpViewModel.password.collectAsState()
     val signupState by signUpViewModel.signUpState.collectAsState()
@@ -70,22 +70,25 @@ fun SignUpScreen(navController: NavController, signUpViewModel: SignUpViewModel 
         }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(16.dp)
         ) {
             Text("Crie sua conta", style = TextStyle(fontSize = 32.sp, color = Color(0xFF0A00CC)), textAlign = TextAlign.Center, fontWeight = FontWeight(500))
-            Spacer(modifier = Modifier.height(32.dp))
+
+            CustomTextField("Nome", name, { signUpViewModel.onNameChange(it) }, false)
+
+            CustomTextField("CPF", cpf, { signUpViewModel.onCpfChange(it) }, false)
+
             CustomTextField("Email", email, { signUpViewModel.onEmailChange(it) }, false)
-            Spacer(modifier = Modifier.height(16.dp))
+
             CustomTextField("Senha", password, { signUpViewModel.onPasswordChange(it) }, true)
-            Spacer(modifier = Modifier.height(16.dp))
+
             Button(onClick = { signUpViewModel.onSignUpClicked() }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp), colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0A00CC)), shape = RoundedCornerShape(100.dp), contentPadding = PaddingValues(vertical = 16.dp)
             ) {
                 Text("Cadastrar", style = TextStyle(fontSize = 24.sp, color = Color(0xFFFFFFFF)))
             }
-            Spacer(modifier = Modifier.height(16.dp))
 
             when (signupState) {
                 is SignUpState.Idle -> {
@@ -99,7 +102,7 @@ fun SignUpScreen(navController: NavController, signUpViewModel: SignUpViewModel 
                 }
                 is SignUpState.Error -> {
                     Text("Usuário já existente ou senha muito curta. Tente novamente!", color = Color(0xFFCC0014), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(400)))
-                    // Text("Error: ${(signupState as SignUpState.Error).message}")
+                    Text("Error: ${(signupState as SignUpState.Error).message}")
                 }
             }
         }

@@ -68,6 +68,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation(libs.firebase.auth.ktx)
     implementation("com.google.dagger:hilt-android:2.52")
+    implementation(libs.firebase.firestore.ktx)
     kapt("com.google.dagger:hilt-android-compiler:2.52")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
     testImplementation(libs.junit)

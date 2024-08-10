@@ -3,9 +3,7 @@ package com.kotlin.mbaasfirebaseproject.ui.screens.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -25,21 +23,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.kotlin.mbaasfirebaseproject.ui.screens.login.LoginViewModel
 
 @Composable
-fun HomeScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
+fun HomeScreen(loginViewModel: LoginViewModel = viewModel(), onLogoutButtonClicked: () -> Unit) {
     val user by loginViewModel.user.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         IconButton(
             onClick = {
                 FirebaseAuth.getInstance().signOut()
-                navController.navigate("login") {
-                    popUpTo("home") { inclusive = true }
-                }
+                loginViewModel.clearUserState()
+                onLogoutButtonClicked()
             },
             modifier = Modifier
                 .align(Alignment.TopStart)
@@ -55,16 +51,20 @@ fun HomeScreen(navController: NavController, loginViewModel: LoginViewModel = vi
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center,
+                .padding(16.dp)
+                .align(Alignment.Center),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text("Seja bem-vindo!", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
-            Spacer(modifier = Modifier.height(16.dp))
-            Text("ID: ${user?.uid}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
-            Text("Email: ${user?.email}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
 
+            Text("ID: ${user?.uid}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+
+            Text("Nome: ${user?.name}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+
+            Text("CPF: ${user?.cpf}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+
+            Text("Email: ${user?.email}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
         }
     }
 }

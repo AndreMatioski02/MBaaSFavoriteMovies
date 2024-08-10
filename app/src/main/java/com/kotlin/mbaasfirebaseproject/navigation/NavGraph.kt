@@ -21,7 +21,11 @@ fun AppNavGraph(startDestination: String = "login") {
             }, onSignupClicked = { navController.navigate("signup")})
         }
         composable("home") {
-            HomeScreen(navController, loginViewModel)
+            HomeScreen(loginViewModel) {
+                navController.navigate("login") {
+                    popUpTo("home") { inclusive = true }
+                }
+            }
         }
         composable("signup") {
             SignUpScreen(navController)
