@@ -33,6 +33,20 @@ class LoginViewModel constructor() : ViewModel() {
         _password.value = newPassword
     }
 
+    suspend fun getUserState(uid: String) {
+        val userDocument = FirebaseFirestore.getInstance()
+            .collection("users")
+            .document(uid)
+            .get()
+            .await()
+
+        val name = userDocument.getString("name")
+        val cpf = userDocument.getString("cpf")
+        val email = userDocument.getString("email")
+
+        _user.value = User(uid, email, name, cpf)
+        _loginState.value = LoginState.Success
+    }
     fun clearUserState() {
         _user.value = null
         _username.value = ""
@@ -50,18 +64,7 @@ class LoginViewModel constructor() : ViewModel() {
 
                 val uid = authResult.user?.uid ?: throw Exception("UID is null")
 
-                val userDocument = FirebaseFirestore.getInstance()
-                    .collection("users")
-                    .document(uid)
-                    .get()
-                    .await()
-
-                val name = userDocument.getString("name")
-                val cpf = userDocument.getString("cpf")
-                val email = authResult.user?.email
-
-                _user.value = User(uid, email, name, cpf)
-                _loginState.value = LoginState.Success
+                getUserState(uid)
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error(e.message ?: "Unknown error")
             }

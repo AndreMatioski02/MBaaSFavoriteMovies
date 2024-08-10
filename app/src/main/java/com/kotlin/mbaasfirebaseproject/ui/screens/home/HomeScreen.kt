@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -56,16 +57,20 @@ fun HomeScreen(loginViewModel: LoginViewModel = viewModel(), onLogoutButtonClick
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Seja bem-vindo!", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+            if(user != null) {
+                Text("Seja bem-vindo!", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
 
-            Text("ID: ${user?.uid}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+                Text("ID: ${user?.uid}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
 
-            Text("Nome: ${user?.name}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+                Text("Nome: ${user?.name}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
 
-            Text("CPF: ${user?.cpf}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+                Text("CPF: ${user?.cpf}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
 
-            Text("Email: ${user?.email}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
-        }
+                Text("Email: ${user?.email}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+            } else {
+                CircularProgressIndicator()
+            }
+            }
     }
 }
 
