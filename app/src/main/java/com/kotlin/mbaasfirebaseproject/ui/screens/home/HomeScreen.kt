@@ -14,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,14 +24,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.kotlin.mbaasfirebaseproject.ui.screens.login.LoginViewModel
 
 @Composable
-fun HomeScreen(navController: NavController, loginViewModel: LoginViewModel = hiltViewModel()) {
-    val userUID = FirebaseAuth.getInstance().currentUser?.uid
+fun HomeScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
+    val user by loginViewModel.user.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
         IconButton(
@@ -60,7 +62,8 @@ fun HomeScreen(navController: NavController, loginViewModel: LoginViewModel = hi
         ) {
             Text("Seja bem-vindo!", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
             Spacer(modifier = Modifier.height(16.dp))
-            Text("ID: $userUID", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+            Text("ID: ${user?.uid}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
+            Text("Email: ${user?.email}", color = Color(0xFF0A00CC), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(500)))
 
         }
     }

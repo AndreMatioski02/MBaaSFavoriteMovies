@@ -28,11 +28,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.kotlin.mbaasfirebaseproject.ui.components.CustomTextField
 
 @Composable
-fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), onLoginSuccess: () -> Unit, onSignupClicked: () -> Unit) {
     val username by loginViewModel.username.collectAsState()
     val password by loginViewModel.password.collectAsState()
     val loginState by loginViewModel.loginState.collectAsState()
@@ -66,7 +65,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                 Text("Acessar", style = TextStyle(fontSize = 24.sp, color = Color(0XFFFFFFFF)))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { navController.navigate("signup") }, modifier = Modifier
+            Button(onClick = { onSignupClicked() }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp), colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent), shape = RoundedCornerShape(100.dp), contentPadding = PaddingValues(vertical = 16.dp)
             ) {
@@ -82,7 +81,7 @@ fun LoginScreen(navController: NavController, loginViewModel: LoginViewModel = v
                     CircularProgressIndicator()
                 }
                 is LoginState.Success -> {
-                    navController.navigate("home")
+                    onLoginSuccess()
                 }
                 is LoginState.Error -> {
                     Text("Usuário ou senha incorreto. Tente novamente!", color = Color(0xFFCC0014), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(400)))
