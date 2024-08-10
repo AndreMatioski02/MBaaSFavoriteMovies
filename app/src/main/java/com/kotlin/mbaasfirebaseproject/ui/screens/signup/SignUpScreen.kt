@@ -102,7 +102,7 @@ fun SignUpScreen(navController: NavController, signUpViewModel: SignUpViewModel 
                 }
                 is SignUpState.Error -> {
                     Text("Usuário já existente ou senha muito curta. Tente novamente!", color = Color(0xFFCC0014), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(400)))
-                    Text("Error: ${(signupState as SignUpState.Error).message}")
+                    // Text("Error: ${(signupState as SignUpState.Error).message}")
                 }
             }
         }

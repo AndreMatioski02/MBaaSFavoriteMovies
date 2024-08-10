@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -30,6 +31,14 @@ import com.kotlin.mbaasfirebaseproject.ui.screens.login.LoginViewModel
 @Composable
 fun HomeScreen(loginViewModel: LoginViewModel = viewModel(), onLogoutButtonClicked: () -> Unit) {
     val user by loginViewModel.user.collectAsState()
+
+    val currentUser = FirebaseAuth.getInstance().currentUser
+
+    if (currentUser != null) {
+        LaunchedEffect(currentUser.uid) {
+            loginViewModel.getUserState(currentUser.uid)
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         IconButton(
