@@ -69,7 +69,7 @@ fun LoginScreen(loginViewModel: LoginViewModel = viewModel(), onLoginSuccess: ()
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp), colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent), shape = RoundedCornerShape(100.dp), contentPadding = PaddingValues(vertical = 16.dp)
             ) {
-                Text("Não possui login? Cradastre-se", style = TextStyle(fontSize = 24.sp, color = Color(0xFF0A00CC)), textAlign = TextAlign.Center, fontWeight = FontWeight(500))
+                Text("Não possui login? Cadastre-se", style = TextStyle(fontSize = 24.sp, color = Color(0xFF0A00CC)), textAlign = TextAlign.Center, fontWeight = FontWeight(500))
             }
             Spacer(modifier = Modifier.height(16.dp))
 

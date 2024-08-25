@@ -98,7 +98,7 @@ fun SignUpScreen(navController: NavController, signUpViewModel: SignUpViewModel 
                     CircularProgressIndicator()
                 }
                 is SignUpState.Success -> {
-                    navController.navigate("home")
+                    navController.navigate("categories")
                 }
                 is SignUpState.Error -> {
                     Text("Usuário já existente ou senha muito curta. Tente novamente!", color = Color(0xFFCC0014), style = TextStyle(fontSize = 24.sp, textAlign = TextAlign.Center, fontWeight = FontWeight(400)))

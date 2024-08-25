@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApp()
             MBaaSFirebaseProjectTheme {
-                AppNavGraph(if(currentUser != null) "home" else "login")
+                AppNavGraph(if(currentUser != null) "categories" else "login")
             }
         }
     }
