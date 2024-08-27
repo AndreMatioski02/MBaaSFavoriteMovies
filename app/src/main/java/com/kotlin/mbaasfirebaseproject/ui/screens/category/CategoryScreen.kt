@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -50,12 +52,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.kotlin.mbaasfirebaseproject.ui.screens.login.LoginViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryScreen(loginViewModel: LoginViewModel = viewModel(), categoryViewModel: CategoryViewModel ,onLogoutButtonClicked: () -> Unit) {
+fun CategoryScreen(loginViewModel: LoginViewModel = viewModel(), categoryViewModel: CategoryViewModel, navController: NavController ,onLogoutButtonClicked: () -> Unit) {
     val user by loginViewModel.user.collectAsState()
     val categories by categoryViewModel.categories
 
@@ -109,6 +112,8 @@ fun CategoryScreen(loginViewModel: LoginViewModel = viewModel(), categoryViewMod
                 actions = {
                     if(user != null) {
                         Text(text = "${user?.name}")
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Icon(Icons.Filled.Person, contentDescription = "Person")
                     } else {
                         CircularProgressIndicator()
                     }
@@ -175,7 +180,10 @@ fun CategoryScreen(loginViewModel: LoginViewModel = viewModel(), categoryViewMod
                         CategoryItem(
                             category = category,
                             onEditClick = { showEditDialog = category },
-                            onDeleteClick = { showDeleteDialog = category }
+                            onDeleteClick = { showDeleteDialog = category },
+                            onCategoryClick = {
+                                navController.navigate("movie/${category.id}")
+                            }
                         )
                     }
                 }
@@ -219,14 +227,15 @@ fun CategoryScreen(loginViewModel: LoginViewModel = viewModel(), categoryViewMod
 fun CategoryItem(
     category: Category,
     onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
+    onCategoryClick: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF0A00CC), shape = RoundedCornerShape(8.dp))
+            .background(Color(0xFF0A00CC), shape = RoundedCornerShape(12.dp))
             .padding(16.dp)
-            .clickable { /* Ação ao clicar na categoria (se necessário) */ },
+            .clickable { onCategoryClick() },
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
